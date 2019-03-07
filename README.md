@@ -7,7 +7,7 @@
 
 ### How To:
 - Install libraries
-- Run script
+- Run script "scrape.py"
 
 ### Other Tools:
 - Data Science Dojo [tutorial](https://www.youtube.com/watch?v=XQgXKtPSzUI)
