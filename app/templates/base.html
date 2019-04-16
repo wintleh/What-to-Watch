@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Show Reccomendation</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    <body>
+        <div id='nav-bar'>
+                <a href="/index"><h3>Test New Show</h3></a>
+            <!--    <a href="/data">Data Set</a> -->
+        </div>
+        {% block content %}{% endblock %}
+    </body>
+</html>
