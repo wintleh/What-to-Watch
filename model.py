@@ -80,6 +80,8 @@ def get_model():
     model = MultinomialNB(alpha=0.9)
     model.fit(X_train, y_train)
 
+    return model
+
     # scores = cross_val_score(model, test_only, y, cv=10)
     # print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
