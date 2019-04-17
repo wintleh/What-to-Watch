@@ -3,15 +3,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import re
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.svm import SVC
-from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 
 from sklearn.metrics import confusion_matrix
 from sklearn.utils.multiclass import unique_labels
+
+model = None
 
 #display method, from:
 # https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
@@ -71,14 +72,29 @@ def plot_confusion_matrix(y_true, y_pred, classes,
     return ax
 
 
+def predict(show_title):
+    '''
+    Give a prediction based on the name of the show
+    '''
+    model = get_model()
+
+    show_title = re.sub(r'\W+', '_', show_title)    # Replace all non-alphanumeric chars with _
+    show_title = re.sub('__*', '_', show_title)     # Shorten multiple underscores to only one
+
+    df = index_fixed[index_fixed.loc[:, 'title'] == show_title  # Should only get one row
+
+    return model.predict(df)
+
+
 def get_model():
     '''
     Train and return the model
     '''
-    X_train, X_test, y_train, y_test = train_test_split(test_only, y, random_state=42, train_size=0.7)
+    if(model == None):
+        X_train, X_test, y_train, y_test = train_test_split(test_only, y, random_state=42, train_size=0.7)
 
-    model = MultinomialNB(alpha=0.9)
-    model.fit(X_train, y_train)
+        model = MultinomialNB(alpha=0.9)
+        model.fit(X_train, y_train)
 
     return model
 
@@ -112,6 +128,8 @@ test_only.loc[:, 'audience_score'] = (test_only.loc[:, 'audience_score']/100).ro
 
 # Reset the index, based on the 'good' data
 test_only = test_only.reset_index()
+
+index_fixed = test_only
 
 # Vectorize the stars
 vect = CountVectorizer(encoding='ISO-8859-1', token_pattern=r"'(.*?)'")
