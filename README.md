@@ -1,13 +1,18 @@
-# What to Watch (Work in progress)
+# What to Watch
 
 >Can't decide on what to watch? This should help!
 
 ### Required Libraries:
 - Beautiful Soup
+- Flask
+- Flask-WTF
+- Numpy
+- Pandas
+- Scikit-learn
 
 ### How To:
 - Install libraries
-- Run script "scrape.py"
+- Run flask
 
 ### Other Tools:
 - Data Science Dojo [tutorial](https://www.youtube.com/watch?v=XQgXKtPSzUI)
