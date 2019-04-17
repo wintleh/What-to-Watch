@@ -1,4 +1,4 @@
-# What to Watch (Work in progress)
+# What to Watch
 
 >Can't decide on what to watch? This should help!
 
