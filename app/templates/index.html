@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- If there is a result/show, show those results and do not show the form -->
+    {% if show and result %}
+        <div id='background'>
+            <h1 class='center'>{{ show }}:</h1>
+            <p>Estimated Audience Rating: {{ result }}</p>
+        </div>
+    <!-- If there is no result/show, show the form -->
+    {% else %}
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.show_title.label }}
+                {{ form.show_title(size=32) }}
+            </p>
+            <p>
+                {{ form.submit() }}
+            </p>
+        </form>
+    {% endif %}
+{% endblock %}
