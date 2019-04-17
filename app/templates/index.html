@@ -6,6 +6,7 @@
         <div id='background'>
             <h1 class='center'>{{ show }}:</h1>
             <p>Estimated Audience Rating: {{ result }}</p>
+            <p>Actual Audience Rating: {{ actual }}</p>
         </div>
     <!-- If there is no result/show, show the form -->
     {% else %}
@@ -19,5 +20,8 @@
                 {{ form.submit() }}
             </p>
         </form>
+        {% if err %}
+            <p>{{ err }}</p>
+        {% endif %}
     {% endif %}
 {% endblock %}

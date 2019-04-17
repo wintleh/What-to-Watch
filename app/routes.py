@@ -1,7 +1,7 @@
 from flask import render_template
 from app import app
 from app.forms import ReccomendationForm
-# from model import predict
+from model import predict
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -10,9 +10,12 @@ def index():
     show_title = str(form.show_title.data)
 
     if form.validate_on_submit():
-        # Connection to the model, use to estimate the value
-        result = '70' # Get this value from the model
-        return render_template('index.html', form=form, show=show_title, result=result)#predict(show_title))
+        prediction, actual, boolValue = predict(show_title)
+        if(boolValue):
+            return render_template('index.html', form=form, \
+                show=show_title.title(), result=str(prediction[0]), \
+                actual=actual)
+        return render_template('index.html', form=form, err='Show not found')
     return render_template('index.html', form=form)
 
 

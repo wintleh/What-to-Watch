@@ -12,7 +12,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.metrics import confusion_matrix
 from sklearn.utils.multiclass import unique_labels
 
-model = None
+main_model = None
 
 #display method, from:
 # https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
@@ -76,17 +76,27 @@ def predict(show_title):
     '''
     Give a prediction based on the name of the show
     '''
-    model = get_model()
+    model = get_model(main_model)
 
     show_title = re.sub(r'\W+', '_', show_title)    # Replace all non-alphanumeric chars with _
     show_title = re.sub('__*', '_', show_title)     # Shorten multiple underscores to only one
 
-    df = index_fixed[index_fixed.loc[:, 'title'] == show_title  # Should only get one row
+    df = index_fixed[index_fixed.loc[:, 'title'] == show_title]  # Should only get one row
 
-    return model.predict(df)
+    if(df.shape[0] == 1):
+        # Get the actual audience rating
+        actual = df.iloc[0, 4]
+
+        # Drop all unnecessary columns
+        df = df.drop(columns=['title', 'years', 'poster_link', \
+            'audience_score','synopsis', 'creators', 'stars', 'network', \
+            'premiere_date', 'genre', 'exec_producers'])
+
+        return model.predict(df), actual, True
+    return 'None', None, False
 
 
-def get_model():
+def get_model(model):
     '''
     Train and return the model
     '''
@@ -129,8 +139,6 @@ test_only.loc[:, 'audience_score'] = (test_only.loc[:, 'audience_score']/100).ro
 # Reset the index, based on the 'good' data
 test_only = test_only.reset_index()
 
-index_fixed = test_only
-
 # Vectorize the stars
 vect = CountVectorizer(encoding='ISO-8859-1', token_pattern=r"'(.*?)'")
 vect_stars = vect.fit_transform(test_only.loc[:, 'stars'])
@@ -157,6 +165,8 @@ transformed_synopsis = transformer.transform(vect_synopsis)
 test_only = test_only.join(pd.DataFrame(vect_creators.todense()))
 
 y = test_only.loc[:, 'audience_score']
+
+index_fixed = test_only
 
 # Drop all unnecessary columns
 test_only = test_only.drop(columns=['title', 'years', 'poster_link', \
