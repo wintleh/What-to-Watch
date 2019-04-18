@@ -78,7 +78,7 @@ def predict(show_title):
     '''
     model = get_model(main_model)
 
-    show_title = re.sub(r'\W+', '_', show_title)    # Replace all non-alphanumeric chars with _
+    show_title = re.sub(r'\W+', '_', show_title.lower())    # Replace all non-alphanumeric chars with _
     show_title = re.sub('__*', '_', show_title)     # Shorten multiple underscores to only one
 
     df = index_fixed[index_fixed.loc[:, 'title'] == show_title]  # Should only get one row
