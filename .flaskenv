@@ -1,1 +1,1 @@
-FLASK_APP=reccomendation.py
+FLASK_APP=recommendation.py
