@@ -106,16 +106,6 @@ def get_model(model):
         model = MultinomialNB(alpha=0.9)
         model.fit(X_train, y_train)
 
-        print("Train accuracy is %.2f %%" % (model.score(X_train, y_train)*100))
-        print("Test accuracy is %.2f %%" % (model.score(X_test, y_test)*100))
-
-        target_labels = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100']
-
-        y_pred = model.predict(X_test)
-        plot_confusion_matrix(y_test, y_pred, classes=target_labels, normalize=True,
-                              title='Normalized confusion matrix for test data')
-        plt.show()
-
     return model
 
     # scores = cross_val_score(model, test_only, y, cv=10)
