@@ -1,12 +1,12 @@
 from flask import render_template
 from app import app
-from app.forms import ReccomendationForm
+from app.forms import RecommendationForm
 from model import predict
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    form = ReccomendationForm()
+    form = RecommendationForm()
     show_title = str(form.show_title.data)
 
     if form.validate_on_submit():
